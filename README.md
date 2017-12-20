@@ -1,3 +1,4 @@
 Download this code.
-Run composer update.
-
+Change DB connection setings.
+Run 'composer update'.
+Run 'php yii migrate'.
