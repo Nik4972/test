@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
 
+
 ?>
 <div class="history-index">
     <div id="ajaxCrudDatatable">
@@ -39,7 +40,7 @@ CrudAsset::register($this);
             'responsive' => true,          
             'panel' => [
                 'type' => 'primary', 
-                'heading' => '<i class="glyphicon glyphicon-list"></i> Payments listing. You balance ('.$balance.')',
+                'heading' => '<i class="glyphicon glyphicon-list"></i> Payments listing. Your balance ('.$balance.')',
                 'before'=>'<em>* Click "+" button to create a new payment.</em>',
                 'after'=>BulkButtonWidget::widget([
                             'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',

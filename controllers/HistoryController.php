@@ -106,8 +106,28 @@ class HistoryController extends Controller
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
-                    Yii::$app->db->createCommand("UPDATE users SET balance=balance+".$model->summa." WHERE username='" .$model->username_b."'")->execute();
-                    Yii::$app->db->createCommand("UPDATE users SET balance=balance-".$model->summa." WHERE username='" .$model->username."'")->execute();
+
+                    $transaction = \Yii::$app->db->beginTransaction();
+                     try {
+ 
+                             // + to balance pecipient
+                        $update = Users::findOne(['username' => $model->username_b]); 
+                        $update->balance += $model->summa;
+                        $update->save();
+                        unset($update);
+
+                           // - from balance payer
+                        $update = Users::findOne(['username' => $model->username]);
+                        $update->balance -= $model->summa;
+                        $update->save();
+                        unset($update);
+
+                        $transaction->commit();
+  
+                     } catch (Exception $e) {
+                             $transaction->rollback();
+                         }
+
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Create new payment",
@@ -116,6 +136,7 @@ class HistoryController extends Controller
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
+            
             }else{           
                 return [
                     'title'=> "Create new payment",

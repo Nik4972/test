@@ -28,12 +28,21 @@ class History extends \yii\db\ActiveRecord
      */
     public function rules()
     {
+        
         return [
             [['username','username_b', 'summa'], 'required'],
-            [['summa'], 'number'],
             [['created_at'], 'safe'],
             [['username', 'username_b'], 'string', 'max' => 255],
-            
+            //[['summa'], 'match', 'pattern' => '/^[0-9]+([\.][0-9]{1,2})*$/i','message' =>'Incorrect value. Valid *****.**'],
+            [['summa'], 'match', 'pattern' => '/^[0-9]*[.]?[0-9]{0,2}$/','message' =>'Incorrect value. Valid *****.**'],
+
+
+//    ^ - начало строки
+//    [0-9]* - 0 и более цифр
+//    [.]? - одна или ноль точек 
+//    [0-9]{0,2} - 0,1 или 2 цифры
+//    $ - конец строки.
+
         ];
     }
 
